@@ -31,10 +31,10 @@ public class MemberController {
         return page.map(member -> new MemberDto(member));
     }
 
-    @PostConstruct
-    public void init() {
-        for (int index=0; index<100; index++) {
-            memberRepository.save(new Member("member" + index, index));
-        }
-    }
+//    @PostConstruct
+//    public void init() {
+//        for (int index=0; index<100; index++) {
+//            memberRepository.save(new Member("member" + index, index));
+//        }
+//    }
 }
