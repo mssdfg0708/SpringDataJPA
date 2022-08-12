@@ -6,6 +6,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import study.datajpa.dto.MemberDto;
+import study.datajpa.dto.MemberProjection;
 import study.datajpa.entity.Member;
 
 import javax.persistence.LockModeType;
@@ -75,4 +76,15 @@ public interface MemberRepository extends JpaRepository<Member, Long>,
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     List<Member> findLockByUsername(String name);
+
+    List<UsernameOnly> findProjectionsByUsername(String name);
+
+    @Query(value = "select * from member where userame = ?", nativeQuery = true)
+    Member findByNativeQuery(String username);
+
+    @Query(value = "SELECT m.member_id as id, m.username, t.name as teamName " +
+            "FROM member m left join team t",
+            countQuery = "SELECT count(*) from member",
+            nativeQuery = true)
+    Page<MemberProjection> findByNativeProjection(Pageable pageable);
 }
